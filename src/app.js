@@ -1,6 +1,5 @@
 const form = document.querySelector('form');
 const streetList = document.querySelector('.streets')
-streetList.innerHTML = '';
 
 
 //https://api.winnipegtransit.com/v3/streets.json?api-key=J5UJHy5yUpory_fpvpUv&name=portage&usage=long
@@ -11,12 +10,13 @@ function handleSubmit(e) {
   if (input.value !== '') {
     getStreets(input.value).then(streetArray => {
       if (streetArray.length === 0) {
+        streetList.innerHTML = '';
         const errorDIV = document.createElement('DIV');
         errorDIV.innerHTML = 'no results were found';
         streetList.appendChild(errorDIV);
         return;
       } else {
-        console.log(streetArray)
+        renderStreetList(streetArray)
       }
     })
     input.value = '';
@@ -31,6 +31,14 @@ function getStreets(streetName) {
   .then(data => data.streets)
 }
 
+function renderStreetList(streetArray) {
+  streetList.innerHTML = '';
+  streetArray.forEach(street => {
+    streetList.insertAdjacentHTML('beforeend', 
+    `<a href="#" data-street-key=${street.key}>${street.name}</a>`
+    )
+  })
+}
 
 
 
