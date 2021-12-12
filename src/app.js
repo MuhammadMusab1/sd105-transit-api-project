@@ -50,7 +50,22 @@ function handleClick(e) {
 function getStopsForStreet(streetKey) {
   return fetch(` https://api.winnipegtransit.com/v3/stops.json?api-key=J5UJHy5yUpory_fpvpUv&street=${streetKey}`)
   .then(response => response.json())
-  .then(data => console.log(data.stops))
+  .then(data => data.stops)
+  .then(stopsArray => {
+    const schedule = [];
+    stopsArray.forEach(stop => {
+      schedule.push(findStopSchedule(stop.key))
+    });
+    Promise.all(schedule).then(scheduleArray => scheduleArray.forEach(schedule => {
+      console.log(schedule)
+    }))
+  })
+}
+
+function findStopSchedule(stopKey) {
+  return fetch(`https://api.winnipegtransit.com/v3/stops/${stopKey}/schedule.json?api-key=J5UJHy5yUpory_fpvpUv`)
+  .then(response => response.json())
+  .then(data => data['stop-schedule'])
 }
 
 
