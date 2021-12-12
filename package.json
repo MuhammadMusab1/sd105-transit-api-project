@@ -1,0 +1,24 @@
+{
+  "name": "practice-project",
+  "version": "1.0.0",
+  "description": "For this project, you will be building a bus schedule search by making use of the [Winnipeg Transit Data API](https://api.winnipegtransit.com/). Sign-up for free access [here](https://api.winnipegtransit.com/).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhammadMusab1/sd105-transit-api-project.git"
+  },
+  "author": "Musab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MuhammadMusab1/sd105-transit-api-project/issues"
+  },
+  "homepage": "https://github.com/MuhammadMusab1/sd105-transit-api-project#readme",
+  "devDependencies": {
+    "gulp": "^4.0.2",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-jsmin": "^0.1.5"
+  }
+}
