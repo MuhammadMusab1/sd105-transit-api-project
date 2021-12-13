@@ -57,7 +57,10 @@ function getStopsForStreet(streetKey) {
       schedule.push(findStopSchedule(stop.key))
     });
     Promise.all(schedule).then(scheduleArray => scheduleArray.forEach(schedule => {
-      console.log(schedule)
+      schedule['route-schedules'].forEach((route, index) => {
+        console.log(createScheduleObj(schedule, index))
+        console.log(schedule)
+      })
     }))
   })
 }
@@ -66,6 +69,16 @@ function findStopSchedule(stopKey) {
   return fetch(`https://api.winnipegtransit.com/v3/stops/${stopKey}/schedule.json?api-key=J5UJHy5yUpory_fpvpUv`)
   .then(response => response.json())
   .then(data => data['stop-schedule'])
+}
+
+function createScheduleObj(schedule, index) {
+  return {
+    stopName : schedule.stop.name,
+    crossStreet : schedule.stop['cross-street'].name,
+    direction : schedule.stop.direction,
+    busNum : schedule['route-schedules'][index].route.number,
+    time : schedule['route-schedules'][index]['scheduled-stops'][0].times.departure.estimated
+  }
 }
 
 
