@@ -1,6 +1,7 @@
 const form = document.querySelector('form');
 const streetList = document.querySelector('.streets');
 const tableBody = document.querySelector('tbody');
+const streetDisplay = document.getElementById('street-name');
 
 
 //https://api.winnipegtransit.com/v3/streets.json?api-key=J5UJHy5yUpory_fpvpUv&name=portage&usage=long
@@ -17,6 +18,8 @@ function handleSubmit(e) {
         streetList.appendChild(errorDIV);
         return;
       } else {
+        streetDisplay.innerHTML = ''
+        tableBody.innerHTML = ''
         renderStreetList(streetArray)
       }
     });
@@ -45,7 +48,8 @@ function handleClick(e) {
   if (e.target.nodeName === 'A') {
     const streetKey = e.target.dataset.streetKey
     getStopsForStreet(streetKey)
-    tableBody.innerHTML = ''
+    tableBody.innerHTML = '';
+    streetDisplay.innerHTML = '';
   }
 }
 
@@ -78,12 +82,14 @@ function createScheduleObj(schedule, index) {
     crossStreet : schedule.stop['cross-street'].name,
     direction : schedule.stop.direction,
     busNum : schedule['route-schedules'][index].route.number,
-    time : schedule['route-schedules'][index]['scheduled-stops'][0].times.departure.estimated
+    time : schedule['route-schedules'][index]['scheduled-stops'][0].times.departure.estimated,
+    streetName : schedule.stop.street.name
   }
 }
 
 function insertTableRowHTML(scheduleObj) {
-  const {stopName, crossStreet, direction, busNum, time} = scheduleObj;
+  const {stopName, crossStreet, direction, busNum, time, streetName} = scheduleObj;
+  streetDisplay.innerHTML = `Displaying results for ${streetName}`
   tableBody.insertAdjacentHTML('beforeend', 
   `<tr>
     <td>${stopName}</td>
