@@ -90,10 +90,14 @@ function insertTableRowHTML(scheduleObj) {
     <td>${crossStreet}</td>
     <td>${direction}</td>
     <td>${busNum}</td>
-    <td>${time}</td>
+    <td>${getTime(time)}</td>
   </tr>`
   )
+}
 
+function getTime(dateString) {
+  const date = new Date(dateString);
+  return date.toLocaleString('en-CA', {hour12 : true, hour: 'numeric', minute: '2-digit'})
 }
 
 
