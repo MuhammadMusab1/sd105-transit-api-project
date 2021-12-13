@@ -1,5 +1,6 @@
 const form = document.querySelector('form');
 const streetList = document.querySelector('.streets');
+const tableBody = document.querySelector('tbody');
 
 
 //https://api.winnipegtransit.com/v3/streets.json?api-key=J5UJHy5yUpory_fpvpUv&name=portage&usage=long
@@ -44,6 +45,7 @@ function handleClick(e) {
   if (e.target.nodeName === 'A') {
     const streetKey = e.target.dataset.streetKey
     getStopsForStreet(streetKey)
+    tableBody.innerHTML = ''
   }
 }
 
@@ -58,8 +60,7 @@ function getStopsForStreet(streetKey) {
     });
     Promise.all(schedule).then(scheduleArray => scheduleArray.forEach(schedule => {
       schedule['route-schedules'].forEach((route, index) => {
-        console.log(createScheduleObj(schedule, index))
-        console.log(schedule)
+        insertTableRowHTML(createScheduleObj(schedule, index))
       })
     }))
   })
@@ -81,6 +82,19 @@ function createScheduleObj(schedule, index) {
   }
 }
 
+function insertTableRowHTML(scheduleObj) {
+  const {stopName, crossStreet, direction, busNum, time} = scheduleObj;
+  tableBody.insertAdjacentHTML('beforeend', 
+  `<tr>
+    <td>${stopName}</td>
+    <td>${crossStreet}</td>
+    <td>${direction}</td>
+    <td>${busNum}</td>
+    <td>${time}</td>
+  </tr>`
+  )
+
+}
 
 
 form.addEventListener('submit', handleSubmit);
